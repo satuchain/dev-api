@@ -1,0 +1,48 @@
+{
+  "name": "satuchain-api",
+  "version": "1.0.1",
+  "description": "Official JavaScript/TypeScript SDK for the SATUCHAIN Developer API",
+  "keywords": ["satuchain", "crypto", "forex", "commodities", "gold", "api", "sdk"],
+  "author": "SATU TEAM <dev@satuchain.com>",
+  "license": "MIT",
+  "homepage": "https://dev.satuchain.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/satuchain/dev-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/satuchain/dev-api/issues"
+  },
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json && node scripts/rename-cjs.mjs",
+    "build:types": "tsc -p tsconfig.types.json",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
+}
