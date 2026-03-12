@@ -1,8 +1,16 @@
 {
   "name": "satuchain-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Official JavaScript/TypeScript SDK for the SATUCHAIN Developer API",
-  "keywords": ["satuchain", "crypto", "forex", "commodities", "gold", "api", "sdk"],
+  "keywords": [
+    "satuchain",
+    "crypto",
+    "forex",
+    "commodities",
+    "gold",
+    "api",
+    "sdk"
+  ],
   "author": "SATU TEAM <dev@satuchain.com>",
   "license": "MIT",
   "homepage": "https://dev.satuchain.com",
