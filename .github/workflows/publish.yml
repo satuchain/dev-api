@@ -52,7 +52,7 @@ jobs:
 
       - name: Publish to GitHub Packages
         run: |
-          npm pkg set name="@satuchain/satuchain-api"
+          npm pkg set name="@satuchain/api"
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
