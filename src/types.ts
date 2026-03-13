@@ -14,11 +14,11 @@ export interface CryptoEntry {
 
 export interface CommodityEntry {
   name: string;
-  /** Price in USD per unit (troy oz for XAU/XAG, lb for COPPER) */
+  /** Price in USD per unit */
   value: number | null;
   /** Percentage change from previous close (positive = up, negative = down) */
   changePercent?: number | null;
-  /** Unit description e.g. "USD/troy oz" */
+  /** Unit description e.g. "USD/troy oz", "USD/barrel" */
   unit?: string;
   note?: string;
 }
@@ -31,12 +31,17 @@ export interface RateLimitInfo {
 
 export interface CommoditiesResponse {
   ok: true;
+  /** Your API key tier: "basic" (60 req/min) or "pro" (300 req/min) */
+  tier: "basic" | "pro";
   base: "USD";
   updatedAtUnix: number | null;
   nextUpdateUnix: number | null;
   crypto: {
     BTC: CryptoEntry;
+    ETH: CryptoEntry;
     BNB: CryptoEntry;
+    SOL: CryptoEntry;
+    ARB: CryptoEntry;
     STU: CryptoEntry;
   };
   forex: {
@@ -51,9 +56,16 @@ export interface CommoditiesResponse {
     [key: string]: ForexEntry;
   };
   commodities: {
+    /** Gold — USD/troy oz */
     XAU: CommodityEntry;
+    /** Silver — USD/troy oz */
     XAG: CommodityEntry;
+    /** Copper — USD/lb */
     COPPER: CommodityEntry;
+    /** WTI Crude Oil — USD/barrel */
+    WTI: CommodityEntry;
+    /** Brent Crude Oil — USD/barrel */
+    BRENT: CommodityEntry;
   };
 }
 

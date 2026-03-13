@@ -58,7 +58,7 @@ export class SatuChainAPI {
         headers: {
           "X-API-Key": this.apiKey,
           "Accept": "application/json",
-          "User-Agent": "satuchain-sdk/1.0.1",
+          "User-Agent": "satuchain-sdk/1.0.3",
         },
         signal,
       });
@@ -85,6 +85,11 @@ export class SatuChainAPI {
       throw new SatuChainAuthError(body?.error);
     }
 
+    if (res.status === 403) {
+      const body = await res.json().catch(() => ({})) as any;
+      throw new SatuChainAuthError(body?.error ?? "API key inactive: insufficient STU balance");
+    }
+
     if (res.status === 429) {
       const retryAfter = parseInt(res.headers.get("retry-after") ?? "60");
       const body = await res.json().catch(() => ({})) as any;
@@ -108,9 +113,12 @@ export class SatuChainAPI {
    *
    * @example
    * const data = await api.getCommodities();
-   * console.log(data.forex.IDR.value);      // IDR per 1 USD
-   * console.log(data.crypto.BTC.value);     // BTC price in USD
-   * console.log(data.commodities.XAU.value); // Gold price in USD/troy oz
+   * console.log(data.forex.IDR.value);           // IDR per 1 USD
+   * console.log(data.crypto.BTC.value);          // BTC price in USD
+   * console.log(data.crypto.ETH.value);          // ETH price in USD
+   * console.log(data.commodities.XAU.value);     // Gold USD/troy oz
+   * console.log(data.commodities.WTI.value);     // WTI Oil USD/barrel
+   * console.log(data.tier);                      // "basic" or "pro"
    */
   async getCommodities(opts?: RequestOptions): Promise<CommoditiesResponse> {
     return this.request<CommoditiesResponse>("/api/commodities", opts);
@@ -133,10 +141,17 @@ export class SatuChainAPI {
   }
 
   /**
-   * Get just the commodity prices (subset of getCommodities).
+   * Get just the commodity prices including metals and crude oil.
    */
-  async getMetals(opts?: RequestOptions): Promise<CommoditiesResponse["commodities"]> {
+  async getCommodityPrices(opts?: RequestOptions): Promise<CommoditiesResponse["commodities"]> {
     const data = await this.getCommodities(opts);
     return data.commodities;
+  }
+
+  /**
+   * @deprecated Use getCommodityPrices() instead.
+   */
+  async getMetals(opts?: RequestOptions): Promise<CommoditiesResponse["commodities"]> {
+    return this.getCommodityPrices(opts);
   }
 }
