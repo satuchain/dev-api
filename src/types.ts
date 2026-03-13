@@ -69,6 +69,55 @@ export interface CommoditiesResponse {
   };
 }
 
+export interface TickerResponse {
+  ok: true;
+  symbol: string;
+  name: string;
+  type: "forex" | "crypto" | "commodity";
+  /** Price in USD */
+  value: number | null;
+  /** Price in IDR */
+  value_idr: number | null;
+  /** Percentage change from previous close (commodities only) */
+  change_percent: number | null;
+  /** Unit description e.g. "USD", "USD/troy oz", "USD/barrel" */
+  unit: string;
+  updatedAtUnix: number | null;
+}
+
+export interface ConvertResponse {
+  ok: true;
+  from: string;
+  to: string;
+  amount: number;
+  /** Converted amount */
+  result: number;
+  /** 1 unit of `from` expressed in `to` */
+  rate: number;
+  updatedAtUnix: number | null;
+}
+
+export interface BiRateResponse {
+  ok: true;
+  /** Numeric rate e.g. 6.00 */
+  rate: number;
+  /** Formatted rate e.g. "6.00%" */
+  rate_percent: string;
+  /** Effective since date e.g. "2024-10-17" */
+  since: string;
+  /** Next BI board meeting date (if available) */
+  next_meeting: string | null;
+  description: string;
+  source: string;
+  note: string;
+}
+
+export interface ConvertOptions extends RequestOptions {
+  from: string;
+  to: string;
+  amount?: number;
+}
+
 // ─── Options ─────────────────────────────────────────────────────────────────
 
 export interface SatuChainAPIOptions {

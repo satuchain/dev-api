@@ -2,6 +2,10 @@ import type {
   SatuChainAPIOptions,
   RequestOptions,
   CommoditiesResponse,
+  TickerResponse,
+  ConvertResponse,
+  ConvertOptions,
+  BiRateResponse,
   RateLimitInfo,
 } from "./types.js";
 import {
@@ -58,7 +62,7 @@ export class SatuChainAPI {
         headers: {
           "X-API-Key": this.apiKey,
           "Accept": "application/json",
-          "User-Agent": "satuchain-sdk/1.0.3",
+          "User-Agent": "satuchain-sdk/1.0.4",
         },
         signal,
       });
@@ -109,19 +113,67 @@ export class SatuChainAPI {
   }
 
   /**
-   * Fetch live commodity, forex, and crypto price data.
+   * Fetch live commodity, forex, and crypto price data in one call.
    *
    * @example
    * const data = await api.getCommodities();
    * console.log(data.forex.IDR.value);           // IDR per 1 USD
    * console.log(data.crypto.BTC.value);          // BTC price in USD
-   * console.log(data.crypto.ETH.value);          // ETH price in USD
    * console.log(data.commodities.XAU.value);     // Gold USD/troy oz
    * console.log(data.commodities.WTI.value);     // WTI Oil USD/barrel
    * console.log(data.tier);                      // "basic" or "pro"
    */
   async getCommodities(opts?: RequestOptions): Promise<CommoditiesResponse> {
     return this.request<CommoditiesResponse>("/api/commodities", opts);
+  }
+
+  /**
+   * Get the price of a single symbol (forex, crypto, or commodity).
+   * Returns value in USD and IDR, plus change_percent for commodities.
+   *
+   * @example
+   * const btc = await api.getTicker("BTC");
+   * console.log(btc.value);          // BTC price in USD
+   * console.log(btc.value_idr);      // BTC price in IDR
+   *
+   * const gold = await api.getTicker("XAU");
+   * console.log(gold.change_percent); // % change from previous close
+   */
+  async getTicker(symbol: string, opts?: RequestOptions): Promise<TickerResponse> {
+    return this.request<TickerResponse>(`/api/ticker/${symbol.toUpperCase()}`, opts);
+  }
+
+  /**
+   * Convert between any two supported symbols (forex, crypto, commodity).
+   *
+   * @example
+   * const result = await api.convert({ from: "BTC", to: "IDR", amount: 0.5 });
+   * console.log(result.result);  // IDR amount
+   * console.log(result.rate);    // 1 BTC in IDR
+   *
+   * const myr = await api.convert({ from: "USD", to: "MYR", amount: 100 });
+   * console.log(myr.result);     // MYR equivalent of 100 USD
+   */
+  async convert(options: ConvertOptions): Promise<ConvertResponse> {
+    const { from, to, amount = 1, ...reqOpts } = options;
+    const params = new URLSearchParams({
+      from: from.toUpperCase(),
+      to: to.toUpperCase(),
+      amount: String(amount),
+    });
+    return this.request<ConvertResponse>(`/api/convert?${params}`, reqOpts);
+  }
+
+  /**
+   * Get the Bank Indonesia 7-Day Reverse Repo Rate (BI7DRR).
+   *
+   * @example
+   * const bi = await api.getBiRate();
+   * console.log(bi.rate_percent);  // e.g. "6.00%"
+   * console.log(bi.since);         // effective since date
+   */
+  async getBiRate(opts?: RequestOptions): Promise<BiRateResponse> {
+    return this.request<BiRateResponse>("/api/bi-rate", opts);
   }
 
   /**
@@ -155,3 +207,6 @@ export class SatuChainAPI {
     return this.getCommodityPrices(opts);
   }
 }
+
+/** Alias for SatuChainAPI */
+export const SatuChain = SatuChainAPI;

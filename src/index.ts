@@ -1,4 +1,4 @@
-export { SatuChainAPI } from "./client.js";
+export { SatuChainAPI, SatuChain } from "./client.js";
 export {
   SatuChainError,
   SatuChainAuthError,
@@ -9,6 +9,10 @@ export type {
   SatuChainAPIOptions,
   RequestOptions,
   CommoditiesResponse,
+  TickerResponse,
+  ConvertResponse,
+  ConvertOptions,
+  BiRateResponse,
   ForexEntry,
   CryptoEntry,
   CommodityEntry,
