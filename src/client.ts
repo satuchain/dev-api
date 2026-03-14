@@ -62,7 +62,7 @@ export class SatuChainAPI {
         headers: {
           "X-API-Key": this.apiKey,
           "Accept": "application/json",
-          "User-Agent": "satuchain-sdk/1.0.7",
+          "User-Agent": "satuchain-sdk/1.0.8",
         },
         signal,
       });
@@ -209,15 +209,17 @@ export class SatuChainAPI {
 
   /**
    * Get the icon URL for a symbol (forex, crypto, or commodity).
-   * Returns a URL string — no API key required to fetch the icon itself.
+   * The icon endpoint requires a valid API key — pass it via X-API-Key header
+   * when fetching the URL, or use it in an authenticated context.
    *
    * @example
    * const url = api.getIconUrl("BTC");
    * // "https://dev.satuchain.com/api/icon/BTC"
-   * // → redirects to the real brand logo (Trustwallet CDN etc.)
    *
-   * // Use in HTML:
-   * img.src = api.getIconUrl("XAU");
+   * // Fetch with auth:
+   * const res = await fetch(api.getIconUrl("XAU"), {
+   *   headers: { "X-API-Key": "sk_live_..." }
+   * });
    */
   getIconUrl(symbol: string): string {
     return `${this.baseUrl}/api/icon/${symbol.toUpperCase()}`;

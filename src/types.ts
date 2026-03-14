@@ -4,6 +4,8 @@ export interface ForexEntry {
   name: string;
   /** Units of this currency per 1 USD */
   value: number | null;
+  /** Icon URL — proxied through the SATUCHAIN API (requires API key) */
+  icon: string;
 }
 
 export interface CryptoEntry {
@@ -12,6 +14,8 @@ export interface CryptoEntry {
   value: number | null;
   /** 24-hour price change in percent (positive = up, negative = down) */
   change24h: number | null;
+  /** Icon URL — proxied through the SATUCHAIN API (requires API key) */
+  icon: string;
 }
 
 export interface CommodityEntry {
@@ -23,6 +27,8 @@ export interface CommodityEntry {
   /** Unit description e.g. "USD/troy oz", "USD/barrel" */
   unit?: string;
   note?: string;
+  /** Icon URL — proxied through the SATUCHAIN API (requires API key) */
+  icon: string;
 }
 
 export interface RateLimitInfo {
