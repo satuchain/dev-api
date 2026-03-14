@@ -62,7 +62,7 @@ export class SatuChainAPI {
         headers: {
           "X-API-Key": this.apiKey,
           "Accept": "application/json",
-          "User-Agent": "satuchain-sdk/1.0.4",
+          "User-Agent": "satuchain-sdk/1.0.5",
         },
         signal,
       });

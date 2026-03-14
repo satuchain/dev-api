@@ -10,6 +10,8 @@ export interface CryptoEntry {
   name: string;
   /** Price in USD */
   value: number | null;
+  /** 24-hour price change in percent (positive = up, negative = down) */
+  change24h: number | null;
 }
 
 export interface CommodityEntry {
@@ -41,6 +43,11 @@ export interface CommoditiesResponse {
     ETH: CryptoEntry;
     BNB: CryptoEntry;
     SOL: CryptoEntry;
+    XRP: CryptoEntry;
+    TRX: CryptoEntry;
+    DOGE: CryptoEntry;
+    HYPE: CryptoEntry;
+    ADA: CryptoEntry;
     ARB: CryptoEntry;
     STU: CryptoEntry;
   };
@@ -66,6 +73,8 @@ export interface CommoditiesResponse {
     WTI: CommodityEntry;
     /** Brent Crude Oil — USD/barrel */
     BRENT: CommodityEntry;
+    /** Coal (Rotterdam) — USD/metric ton */
+    COAL: CommodityEntry;
   };
 }
 
@@ -78,7 +87,7 @@ export interface TickerResponse {
   value: number | null;
   /** Price in IDR */
   value_idr: number | null;
-  /** Percentage change from previous close (commodities only) */
+  /** Percentage change (24h for crypto, previous close for commodities) */
   change_percent: number | null;
   /** Unit description e.g. "USD", "USD/troy oz", "USD/barrel" */
   unit: string;
