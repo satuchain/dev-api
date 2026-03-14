@@ -1,6 +1,6 @@
 {
   "name": "satuchain-api",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Official JavaScript/TypeScript SDK for the SATUCHAIN Developer API",
   "keywords": [
     "satuchain",
