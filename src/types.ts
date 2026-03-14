@@ -48,6 +48,7 @@ export interface CommoditiesResponse {
     DOGE: CryptoEntry;
     HYPE: CryptoEntry;
     ADA: CryptoEntry;
+    TON: CryptoEntry;
     ARB: CryptoEntry;
     STU: CryptoEntry;
   };
@@ -75,6 +76,8 @@ export interface CommoditiesResponse {
     BRENT: CommodityEntry;
     /** Coal (Rotterdam) — USD/metric ton */
     COAL: CommodityEntry;
+    /** Nickel (LME) — USD/metric ton */
+    NICKEL: CommodityEntry;
   };
 }
 
